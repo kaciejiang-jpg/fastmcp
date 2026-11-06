@@ -11,6 +11,13 @@ filesystem-provider
 └─ server.py               # MCP服务主入口，创建FastMCP实例，把tool和resource全部注册进去
 ```
 
+```注意：
+工具不是在 server.py 里直接写的，引入的`FileSystemProvider` 是FastMCP的文件扫描自动加载器：
+✅ 它会自动去 `components` 文件夹里面，递归扫所有 `.py` 文件
+✅ 只要文件里的函数打上了 `@tool` / `@resource` / `@prompt`，就自动注册成 MCP 的工具，不用手动在 server.py 写 `@mcp.tool`
+```
+
+
 ```text
 整体运行流程：
 

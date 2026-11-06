@@ -5,8 +5,11 @@ import json
 from fastmcp.resources import resource
 
 
-# Static resource - no parameters in URI
-@resource("config://app")
+# Static resource - no parameters in URI  
+ #静态资源（无参数URI->URI地址是写好的，没有{变量名}这种占位符，读取它的时候，不需要额外传任何参数）
+@resource("config://app") 
+#URI：MCP里面用来唯一标记一个资源的“地址”，类似于网址的作用，但不一定是互联网网址
+#URL：是URI的一种，是能在浏览器打开的网络地址
 def get_app_config() -> str:
     """Get application configuration."""
     return json.dumps(
@@ -15,12 +18,13 @@ def get_app_config() -> str:
             "version": "1.0.0",
             "features": ["tools", "resources", "prompts"],
         },
-        indent=2,
+        indent=2,  #将 Python 字典转换成 JSON 字符串
     )
 
 
 # Resource template - {env} is a parameter
-@resource("config://env/{env}")
+#模板资源（带占位符参数 `{env}`，客户端读取的时候，把占位替换成具体值）
+@resource("config://env/{env}")  
 def get_env_config(env: str) -> str:
     """Get environment-specific configuration.
 
