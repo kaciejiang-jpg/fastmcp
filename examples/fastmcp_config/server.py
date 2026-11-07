@@ -19,7 +19,8 @@ def add(a: int, b: int) -> int:  #参数类型为整数
 
  #MCP资源，客户端是读取获取内容，没有入参，用来读取一段信息、配置、文档，不是执行动作
 @mcp.resource("config://example")   #`config://` 是自定义协议前缀，`example` 是资源标识，相当于这个资源的唯一地址，客户端就靠这个地址定位要读取哪一份资源。
-#你还可以写别的，比如 `file://xxx`、`info://version`。
+#你还可以写别的，比如 `file://xxx`属于【静态资源】居多（文件内容固定），也可以是动态变化的日志文件。
+# `info://version`:返回服务自身的运行信息、元信息（版本号、启动时间、功能列表、运行状态摘要）。
 
 def get_example_config() -> str:  
     """Return an example configuration."""
