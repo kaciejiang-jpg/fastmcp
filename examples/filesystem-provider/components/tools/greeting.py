@@ -26,3 +26,4 @@ def farewell(name: str) -> str:
 # Helper functions without decorators are ignored
 def _format_message(msg: str) -> str:
     return msg.strip().capitalize()
+# 私有内部函数，用于格式化文本，不对外提供给外部使用
