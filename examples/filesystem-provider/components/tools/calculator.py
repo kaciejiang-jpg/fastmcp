@@ -13,7 +13,7 @@ def add(a: float, b: float) -> float:
     return a + b
 
 
-@tool(tags={"math", "arithmetic"})
+@tool(tags={"math", "arithmetic"})  #数学和算术运算
 def multiply(a: float, b: float) -> float:
     """Multiply two numbers.
 
