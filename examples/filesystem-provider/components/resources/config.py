@@ -32,9 +32,13 @@ def get_env_config(env: str) -> str:
         env: Environment name (dev, staging, prod).
     """
     configs = {
+        # dev 开发环境：本地开发调试，开启debug——>开启调试模式（报错），日志级别最低，连接本地数据库
         "dev": {"debug": True, "log_level": "DEBUG", "database": "localhost"},
+        # staging 预发布/测试环境：接近线上环境，debug开启，日志级别INFO，连接测试数据库
         "staging": {"debug": True, "log_level": "INFO", "database": "staging-db"},
+        # prod 生产线上环境：关闭debug（保护内部信息），只保留警告及以上日志，连接正式业务数据库
         "prod": {"debug": False, "log_level": "WARNING", "database": "prod-db"},
+        # 日志级别排序：DEBUG < INFO < WARNING < ERROR < CRITICAL
     }
     config = configs.get(env, {"error": f"Unknown environment: {env}"})
     return json.dumps(config, indent=2)
