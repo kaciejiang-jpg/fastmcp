@@ -12,13 +12,13 @@ from fastmcp.resources import resource
 #URL：是URI的一种，是能在浏览器打开的网络地址
 def get_app_config() -> str:
     """Get application configuration."""
-    return json.dumps(
+    return json.dumps(     #将 Python 字典转换成 JSON 字符串
         {
             "name": "FilesystemDemo",
             "version": "1.0.0",
             "features": ["tools", "resources", "prompts"],
         },
-        indent=2,  #将 Python 字典转换成 JSON 字符串
+        indent=2,  
     )
 
 
@@ -32,21 +32,22 @@ def get_env_config(env: str) -> str:
         env: Environment name (dev, staging, prod).
     """
     configs = {
-        # dev 开发环境：本地开发调试，开启debug——>开启调试模式（报错），日志级别最低，连接本地数据库
+        # dev 开发环境：本地开发调试，开启debug——>开启调试模式（报错），打印超多日志，连接本地数据库（你电脑上的测试库，随便造数据、随便删）
         "dev": {"debug": True, "log_level": "DEBUG", "database": "localhost"},
-        # staging 预发布/测试环境：接近线上环境，debug开启，日志级别INFO，连接测试数据库
+        # staging 预发布/测试环境：接近线上环境，debug开启，日志级别INFO，连的是测试数据库，里面是模拟数据
         "staging": {"debug": True, "log_level": "INFO", "database": "staging-db"},
         # prod 生产线上环境：关闭debug（保护内部信息），只保留警告及以上日志，连接正式业务数据库
         "prod": {"debug": False, "log_level": "WARNING", "database": "prod-db"},
         # 日志级别排序：DEBUG < INFO < WARNING < ERROR < CRITICAL
     }
-    config = configs.get(env, {"error": f"Unknown environment: {env}"})
+    config = configs.get(env, {"error": f"Unknown environment: {env}"})  # 防止代码崩溃，但只能处理环境名称有误的情况
     return json.dumps(config, indent=2)
 
 
-# Resource with custom metadata
+# Resource with custom metadata   
+#配置资源（`config://xxx`，运行时动态生成 JSON 格式的功能开关数据，对外提供功能启停与业务参数）
 @resource(
-    "config://features",
+    "config://features",  
     name="feature-flags",
     mime_type="application/json",
     tags={"config", "features"},
@@ -55,9 +56,9 @@ def get_feature_flags() -> str:
     """Get feature flags configuration."""
     return json.dumps(
         {
-            "dark_mode": True,
-            "beta_features": False,
-            "max_upload_size_mb": 100,
+            "dark_mode": True,       # 页面就渲染深色主题
+            "beta_features": False,  # 隐藏内测功能入口，不让普通用户使用
+            "max_upload_size_mb": 100,  #校验上传文件不能超过 100MB
         },
         indent=2,
     )
